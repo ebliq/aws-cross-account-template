@@ -85,20 +85,20 @@ export function ConnectCard({
   return (
     <div className="mx-auto mt-8 flex min-h-[60vh] w-full max-w-[50em] flex-col ">
       <div className="mx-auto flex flex-col items-center justify-center gap-4 bg-white p-4 shadow ">
+        <div className="flex w-full items-center justify-center gap-4">
+          <div className="rounded-md bg-slate-200 p-2">
+            <Icons.user className="h-8 w-8" />
+          </div>
+          <Icons.arrowLeftRight className="h-4 w-4" />
+          <div className="flex items-center justify-center rounded-md bg-slate-800 p-2">
+            <Icons.aws className="h-8 w-8 text-amber-500" />
+          </div>
+        </div>
         <div className="flex flex-col items-center">
           <h1 className="text-2xl font-bold">Connect an AWS account</h1>
           <span className="text-sm text-muted-foreground">
             Let&apos;s connect an AWS account to your workspace
           </span>
-        </div>
-        <div className="flex w-full items-center justify-center gap-4">
-          <div className="rounded-md bg-slate-100 p-2">
-            <Icons.user className="h-8 w-8" />
-          </div>
-          <Icons.arrowLeftRight className="h-4 w-4" />
-          <div className="rounded-md bg-slate-100 p-2">
-            <Icons.aws className="h-8 w-8 text-orange-600" />
-          </div>
         </div>
 
         <div className="flex flex-col gap-4 rounded-md  p-4">
