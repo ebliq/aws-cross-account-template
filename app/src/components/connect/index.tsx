@@ -25,6 +25,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useForm } from "react-hook-form";
+import { currentUser, useUser } from "@clerk/nextjs";
+import Image from "next/image";
 
 const AVAILABLE_REGIONS = [
   {
@@ -64,12 +66,13 @@ const ListItem = ({ children }: { children: React.ReactNode }) => (
   </li>
 );
 
-export function ConnectCard({
+export async function ConnectCard({
   className,
   ...props
 }: React.HTMLAttributes<HTMLElement>) {
   const form = useForm({ mode: "onChange" });
-
+  const { user } = useUser();
+  console.log(user);
   function onSubmit(data: any) {
     const cloudformationParameter = new URLSearchParams({
       param_workspaceID: nanoid(10),
@@ -86,8 +89,18 @@ export function ConnectCard({
     <div className="mx-auto mt-8 flex min-h-[60vh] w-full max-w-[50em] flex-col ">
       <div className="mx-auto flex flex-col items-center justify-center gap-4 bg-white p-4 shadow ">
         <div className="flex w-full items-center justify-center gap-4">
-          <div className="rounded-md bg-slate-200 p-2">
-            <Icons.user className="h-8 w-8" />
+          <div className="rounded-md bg-slate-200">
+            {user ? (
+              <Image
+                src={user?.imageUrl}
+                alt={user.username || "user"}
+                width={64}
+                height={64}
+                className=" h-12 w-12 rounded-md"
+              />
+            ) : (
+              <Icons.user className="h-8 w-8" />
+            )}
           </div>
           <Icons.arrowLeftRight className="h-4 w-4" />
           <div className="flex items-center justify-center rounded-md bg-slate-800 p-2">

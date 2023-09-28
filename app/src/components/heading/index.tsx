@@ -1,11 +1,16 @@
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
+import { SignInButton, UserButton } from "@clerk/nextjs";
+import { currentUser } from "@clerk/nextjs";
+import { Button } from "../ui/button";
+import OrganizationSwitcher from "../../app/organizations/components/switcher";
 
-export function Header({
+export async function Header({
   className,
   ...props
 }: React.HTMLAttributes<HTMLElement>) {
+  const user = await currentUser();
   return (
     <div className="border-b bg-white">
       <div className="flex h-16 items-center px-4">
@@ -16,17 +21,17 @@ export function Header({
         </Link>
 
         {/* <TeamSwitcher /> */}
-        {/* <nav className={cn('flex items-center space-x-4 lg:space-x-6', className)} {...props}>
-          <Link href="/examples/dashboard" className="text-sm font-medium transition-colors hover:text-primary">
-            Overview
-          </Link>
+        <nav
+          className={cn("flex items-center space-x-4 lg:space-x-6", className)}
+          {...props}
+        >
           <Link
-            href="/examples/dashboard"
-            className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+            href="/organizations"
+            className="text-sm font-medium transition-colors hover:text-primary"
           >
-            Customers
+            Organizations
           </Link>
-          <Link
+          {/* <Link
             href="/examples/dashboard"
             className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
           >
@@ -37,12 +42,22 @@ export function Header({
             className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
           >
             Settings
-          </Link>
-        </nav> */}
-        {/* <div className="ml-auto flex items-center space-x-4">
-          <Search /> 
-           <UserNav />
-        </div> */}
+          </Link> */}
+        </nav>
+        <div className="ml-auto flex items-center space-x-4">
+          {/* <Search />  */}
+
+          {user ? (
+            <>
+              <OrganizationSwitcher />
+              <UserButton afterSignOutUrl="/" />
+            </>
+          ) : (
+            <SignInButton>
+              <Button>Login</Button>
+            </SignInButton>
+          )}
+        </div>
       </div>
     </div>
   );
