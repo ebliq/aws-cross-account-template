@@ -11,7 +11,11 @@ import {
 import React, { useEffect } from "react";
 import { Dialog, DialogTrigger } from "../ui/dialog";
 import { Icons } from "../icons";
-import { cn, getCurrentOrgPath } from "@/lib/utils";
+import {
+  cn,
+  getCurrentOrgPath,
+  setCookieForActiveOrganization,
+} from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { useOrganization, useOrganizationList, useUser } from "@clerk/nextjs";
@@ -62,7 +66,10 @@ export default function OrganizationSwitcher({ className }: TeamSwitcherProps) {
                 {user?.organizationMemberships?.map(({ organization }) => (
                   <CommandItem
                     key={organization.id}
-                    onSelect={() => {
+                    onSelect={async () => {
+                      await setCookieForActiveOrganization(
+                        organization.slug as string,
+                      );
                       router.push(`/workspace/${organization.slug}`);
                       setOpen(false);
                     }}

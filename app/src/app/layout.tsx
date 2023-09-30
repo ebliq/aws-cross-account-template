@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import { Header } from "@/components/heading";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/toaster";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,22 +19,31 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider
-      appearance={{
-        layout: {
-          socialButtonsPlacement: "bottom",
-          socialButtonsVariant: "blockButton",
-          termsPageUrl: "https://clerk.dev/terms",
-        },
-      }}
-    >
-      <html lang="en">
-        <body className={`${inter.className} bg-background`}>
-          <Header />
-          {children}
-          <Toaster />
+    <html lang="en">
+      <ClerkProvider
+        appearance={{
+          layout: {
+            socialButtonsPlacement: "bottom",
+            socialButtonsVariant: "blockButton",
+            termsPageUrl: "https://clerk.dev/terms",
+          },
+        }}
+      >
+        <body className={`${inter.className}`}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="light"
+            // enableSystem
+            disableTransitionOnChange
+          >
+            <Header />
+            <main className="mx-auto flex min-h-[60vh] w-full max-w-[50em] flex-col items-center justify-center space-y-12">
+              {children}
+            </main>
+            <Toaster />
+          </ThemeProvider>
         </body>
-      </html>
-    </ClerkProvider>
+      </ClerkProvider>
+    </html>
   );
 }

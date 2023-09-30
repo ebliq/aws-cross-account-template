@@ -1,12 +1,11 @@
 import Link from "next/link";
 
-import { cn, getCurrentOrgPath } from "@/lib/utils";
-import { SignInButton, UserButton } from "@clerk/nextjs";
+import { SignInButton } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs";
 import { Button } from "../ui/button";
 import OrganizationSwitcher from "../organizations/switcher";
-import { usePathname } from "next/navigation";
-import { headers } from "next/headers";
+import { ModeToggle } from "../theme-provider";
+import { SignOut } from "./signout";
 
 export async function Header({
   className,
@@ -15,7 +14,7 @@ export async function Header({
   const user = await currentUser();
 
   return (
-    <div className="border-b bg-white">
+    <div className="border-b dark:border-accent">
       <div className="flex h-16 items-center px-4">
         <Link href="/">
           <h2 className="text-lg font-semibold">
@@ -23,37 +22,13 @@ export async function Header({
           </h2>
         </Link>
 
-        {/* <TeamSwitcher /> */}
-        <nav
-          className={cn("flex items-center space-x-4 lg:space-x-6", className)}
-          {...props}
-        >
-          <Link
-            href="/organizations"
-            className="text-sm font-medium transition-colors hover:text-primary"
-          >
-            Organizations
-          </Link>
-          {/* <Link
-            href="/examples/dashboard"
-            className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-          >
-            Products
-          </Link>
-          <Link
-            href="/examples/dashboard"
-            className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-          >
-            Settings
-          </Link> */}
-        </nav>
         <div className="ml-auto flex items-center space-x-4">
           {/* <Search />  */}
-
+          <ModeToggle />
           {user ? (
             <>
               <OrganizationSwitcher />
-              <UserButton afterSignOutUrl="/" />
+              <SignOut />
             </>
           ) : (
             <SignInButton>

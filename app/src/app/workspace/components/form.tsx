@@ -29,11 +29,12 @@ export function CreateOrganizationForm({
   const { toast } = useToast();
 
   useEffect(() => {
-    toast({
-      variant: "destructive",
-      title: "Uh oh! Something went wrong.",
-      description: state.message,
-    });
+    state.message &&
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: state.message,
+      });
   }, [state]);
 
   return (

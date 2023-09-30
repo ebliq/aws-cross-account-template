@@ -1,14 +1,13 @@
 import { redirect } from "next/navigation";
-import { auth, currentUser } from "@clerk/nextjs";
+import { currentUser } from "@clerk/nextjs";
+import { cookies } from "next/headers";
+import { COOKIE_WORKSPACE } from "../constants";
 
 export default async function Home() {
-  const { userId, orgSlug } = await auth();
-  if (userId) {
-    redirect(`/workspace/${orgSlug}`);
+  const user = await currentUser();
+  if (user?.id) {
+    const orgCookie = cookies().get(COOKIE_WORKSPACE);
+    redirect(`/workspace/${orgCookie?.value}`);
   }
-  return (
-    <main className="mx-auto flex min-h-[60vh] w-full max-w-[50em] flex-col items-center justify-center space-y-12">
-      <h1 className="text-4xl font-bold">Home Page</h1>
-    </main>
-  );
+  return <h1 className="text-4xl font-bold">Home Page</h1>;
 }
