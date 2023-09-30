@@ -1,16 +1,19 @@
 import Link from "next/link";
 
-import { cn } from "@/lib/utils";
+import { cn, getCurrentOrgPath } from "@/lib/utils";
 import { SignInButton, UserButton } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs";
 import { Button } from "../ui/button";
-import OrganizationSwitcher from "../../app/organizations/components/switcher";
+import OrganizationSwitcher from "../organizations/switcher";
+import { usePathname } from "next/navigation";
+import { headers } from "next/headers";
 
 export async function Header({
   className,
   ...props
 }: React.HTMLAttributes<HTMLElement>) {
   const user = await currentUser();
+
   return (
     <div className="border-b bg-white">
       <div className="flex h-16 items-center px-4">

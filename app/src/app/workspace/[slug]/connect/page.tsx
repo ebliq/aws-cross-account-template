@@ -1,5 +1,3 @@
-// @ts-ignore
-
 import { ConnectCard } from "@/components/connect";
 
 export default async function Page() {
