@@ -8,6 +8,7 @@ import {
   CheckIcon,
   PlusCircleIcon,
   ChevronsUpDown,
+  Box,
 } from "lucide-react";
 
 export type Icon = LucideIcon;
@@ -20,6 +21,7 @@ export const Icons = {
   check: CheckIcon,
   plusCircle: PlusCircleIcon,
   chevronsUpDown: ChevronsUpDown,
+  box: Box,
   logo: (props: LucideProps) => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
       <path

@@ -19,6 +19,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Ref, useRef } from "react";
 import React from "react";
+import { ListItem } from "@/components/ui/listItem";
 
 const AVAILABLE_REGIONS = [
   {
@@ -42,21 +43,6 @@ const AVAILABLE_REGIONS = [
 const CLOUDOFMRATION_URL =
   process.env.CLOUDOFMRATION_URL ||
   "https://accountgatewaystack-publicbucket838c4779-xblbwu7v0vzr.s3.eu-central-1.amazonaws.com/template.json";
-
-const ListItem = ({ children }: { children: React.ReactNode }) => (
-  <li className="flex items-center">
-    <svg
-      className="mr-2 h-3 w-3 flex-shrink-0 text-green-500 dark:text-green-400"
-      aria-hidden="true"
-      xmlns="http://www.w3.org/2000/svg"
-      fill="currentColor"
-      viewBox="0 0 20 20"
-    >
-      <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-    </svg>
-    {children}
-  </li>
-);
 
 interface ConnectCardProps extends React.HTMLAttributes<HTMLElement> {
   userId: string;
