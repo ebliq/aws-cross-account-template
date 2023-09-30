@@ -8,7 +8,7 @@ import {
   CommandList,
   CommandSeparator,
 } from "../ui/command";
-import React, { useEffect } from "react";
+import React from "react";
 import { Dialog, DialogTrigger } from "../ui/dialog";
 import { Icons } from "../icons";
 import {
@@ -16,9 +16,8 @@ import {
   getCurrentOrgPath,
   setCookieForActiveOrganization,
 } from "@/lib/utils";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
-import { useOrganization, useOrganizationList, useUser } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import { usePathname, useRouter } from "next/navigation";
 
 type Organization = {

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { SignInButton } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs";
 import { Button } from "../ui/button";
-import OrganizationSwitcher from "../organizations/switcher";
+import OrganizationSwitcher from "./switcher";
 import { ModeToggle } from "../theme-provider";
 import { SignOut } from "./signout";
 

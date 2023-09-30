@@ -122,12 +122,14 @@ export function ConnectCard({
           AWS region where you want your resources to be managed
         </span>
 
-        <Link
-          href={`https://${region}.console.aws.amazon.com/cloudformation/home?region=${region}#/stacks/create/review?${cloudformationParameter}`}
-          target="_blank"
-        >
-          <code> Connect AWS Account</code>
-        </Link>
+        <Button className="font-mono">
+          <Link
+            href={`https://${region}.console.aws.amazon.com/cloudformation/home?region=${region}#/stacks/create/review?${cloudformationParameter}`}
+            target="_blank"
+          >
+            Connect AWS Account
+          </Link>
+        </Button>
         <span className="text-xs text-muted-foreground">
           Want to know more check the{" "}
           <Link href={"/docs"} className="font-mono ">
