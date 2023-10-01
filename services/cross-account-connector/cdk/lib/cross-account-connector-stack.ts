@@ -27,7 +27,8 @@ export class CrossAccountConnectorStack extends cdk.Stack {
     });
 
     // Create DynamoDB table for storing account information
-    const table = new dynamodb.Table(this, "table", {
+    const table = new dynamodb.Table(this, "crossAccountUserTable", {
+      tableName: `${props.namePrefix}-cross-account-user-table-${props.randomSufix}`,
       partitionKey: { name: "PK", type: dynamodb.AttributeType.STRING },
       sortKey: { name: "SK", type: dynamodb.AttributeType.STRING },
       deletionProtection: false,

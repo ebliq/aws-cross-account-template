@@ -4,8 +4,10 @@ import * as iam from "aws-cdk-lib/aws-iam";
 import * as Handlebars from "handlebars";
 import * as fs from "fs";
 import * as path from "path";
-import { BucketDeployment, Source } from 'aws-cdk-lib/aws-s3-deployment';
+import { BucketDeployment, Source } from 'aws-cdk-lib/aws-s3-deployment'
+
 import { Fn } from 'aws-cdk-lib';
+import { Asset } from 'aws-cdk-lib/aws-s3-assets';
 
 export interface PublicBucketProps extends s3.BucketProps {
   namePrefix: string;
@@ -64,9 +66,10 @@ export class PublicTemplateBucket extends Construct {
    * Uploads the generated template to the S3 bucket
    */
   public uploadTemplate({ template }: { template: string }) {
+
     // Upload template logic  
     const object = new BucketDeployment(this, "UploadCloudformationTemplate", {
-      sources: [Source.data("template.json", template)],
+      sources: [Source.jsonData("template.json", template)],
       destinationBucket: this.publicTemplateBucket,
     })
     return Fn.select(0, object.objectKeys);
