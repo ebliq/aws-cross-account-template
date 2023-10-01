@@ -5,9 +5,7 @@ import * as Handlebars from "handlebars";
 import * as fs from "fs";
 import * as path from "path";
 import { BucketDeployment, Source } from 'aws-cdk-lib/aws-s3-deployment'
-
-import { Fn } from 'aws-cdk-lib';
-import { Asset } from 'aws-cdk-lib/aws-s3-assets';
+import { RemovalPolicy } from 'aws-cdk-lib';
 
 export interface PublicBucketProps extends s3.BucketProps {
   namePrefix: string;
@@ -23,6 +21,8 @@ export class PublicTemplateBucket extends Construct {
 
   constructor(scope: Construct, id: string, props: PublicBucketProps) {
     super(scope, id);
+    console.log(__dirname)
+
     this.publicTemplateBucket = new s3.Bucket(this, id, {
       bucketName: `${props.namePrefix}-public-template-bucket-${props.randomSufix}`,
       blockPublicAccess: new s3.BlockPublicAccess({
@@ -31,6 +31,9 @@ export class PublicTemplateBucket extends Construct {
         blockPublicPolicy: false,
         restrictPublicBuckets: false,
       }),
+      // remove bucket when stack is deleted and delete template file
+      removalPolicy: RemovalPolicy.DESTROY,
+      autoDeleteObjects: true,
     });
 
     // Add bucket policy to allow public access to the bucket
@@ -63,14 +66,15 @@ export class PublicTemplateBucket extends Construct {
   /**
    * Uploads the generated template to the S3 bucket
    */
-  public uploadTemplate({ template }: { template: string }) {
-
-    // Upload template logic  
-    const object = new BucketDeployment(this, "UploadCloudformationTemplate", {
-      sources: [Source.jsonData("template.json", template)],
+  public uploadTemplate({ template, region }: { template: string, region: string }) {
+    const fileName = "template.json";
+    // Upload template json file to the S3 bucket  
+    new BucketDeployment(this, "UploadCloudformationTemplate", {
+      sources: [Source.data(fileName, template)],
       destinationBucket: this.publicTemplateBucket,
     })
-    return Fn.select(0, object.objectKeys);
+    const templateUri = `https://${this.publicTemplateBucket.bucketName}.s3.${region}.amazonaws.com/${fileName}`
+    return templateUri
   }
 
 }

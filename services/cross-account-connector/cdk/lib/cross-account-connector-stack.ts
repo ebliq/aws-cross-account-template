@@ -28,7 +28,7 @@ export class CrossAccountConnectorStack extends cdk.Stack {
 
     // Create DynamoDB table for storing account information
     const table = new dynamodb.Table(this, "crossAccountUserTable", {
-      tableName: `${props.namePrefix}-cross-account-user-table-${props.randomSufix}`,
+      tableName: `${props.namePrefix}-user-table-${props.randomSufix}`,
       partitionKey: { name: "PK", type: dynamodb.AttributeType.STRING },
       sortKey: { name: "SK", type: dynamodb.AttributeType.STRING },
       deletionProtection: false,
@@ -63,9 +63,7 @@ export class CrossAccountConnectorStack extends cdk.Stack {
     // Generate the Cloudformation template
     const template = publicTemplateBucket.generateTemplate({ lambdaArn: connectorLambdaArn, awsAccountId: this.account })
     // Upload the Cloudformation template to the S3 bucket
-    const templateUri = publicTemplateBucket.uploadTemplate({ template });
-
-
+    const templateUri = publicTemplateBucket.uploadTemplate({ template, region: this.region });
 
 
     // Outputs
