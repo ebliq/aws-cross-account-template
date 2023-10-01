@@ -16,11 +16,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
-import { Ref, useRef } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 import React from "react";
 import { ListItem } from "@/components/ui/listItem";
-import { CLOUDOFMRATION_URL, DEFAULT_REGION } from "@/constants";
+import { CLOUDOFMRATION_URL, DEFAULT_REGION, HOST } from "@/constants";
 import { LoadingSpinner } from "@/components/icons/loading";
 
 const AVAILABLE_REGIONS = [
@@ -53,6 +53,7 @@ export function ConnectCard({
   className,
 }: ConnectCardProps) {
   const path = usePathname();
+  const router = useRouter();
   const currentOrg = getCurrentOrgPath(path);
   const [region, setRegion] = React.useState(DEFAULT_REGION);
   const [connecting, setConnecting] = React.useState(false);
@@ -62,6 +63,28 @@ export function ConnectCard({
     stackName: `${currentOrg}-cloudofmration-${nanoid(6)}`,
     templateURL: CLOUDOFMRATION_URL || "",
   });
+
+  // Checks if the account is connected after "connecting" is set to "true"
+  // uses polling every 3 seconds if the account is connected redirects to the workspace
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      if (!connecting) return;
+      // check if account is connected
+      const res = await fetch(`${HOST}/api/workspace/connect`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ slug: currentOrg }),
+      });
+      console.log(res.ok);
+      if (res.ok) {
+        router.push(`/workspace/${currentOrg}`);
+      }
+    }, 3000);
+    return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [connecting]);
 
   return (
     <div className="mx-auto mt-8 flex min-h-[60vh] w-full max-w-[50em] flex-col ">

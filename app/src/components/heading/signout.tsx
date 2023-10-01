@@ -1,13 +1,19 @@
 "use client";
-import { SignOutButton } from "@clerk/nextjs";
+import { useClerk } from "@clerk/nextjs";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 
 export function SignOut() {
   const router = useRouter();
+  const { signOut } = useClerk();
   return (
-    <SignOutButton signOutCallback={() => router.push("/")}>
-      <Button>Logut</Button>
-    </SignOutButton>
+    <Button
+      onClick={() => {
+        signOut();
+        router.push("/");
+      }}
+    >
+      Logut
+    </Button>
   );
 }
