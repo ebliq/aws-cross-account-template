@@ -23,8 +23,6 @@ export class PublicTemplateBucket extends Construct {
 
   constructor(scope: Construct, id: string, props: PublicBucketProps) {
     super(scope, id);
-    console.log(__dirname)
-
     this.publicTemplateBucket = new s3.Bucket(this, id, {
       bucketName: `${props.namePrefix}-public-template-bucket-${props.randomSufix}`,
       blockPublicAccess: new s3.BlockPublicAccess({
