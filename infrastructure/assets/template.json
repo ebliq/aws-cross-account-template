@@ -1,0 +1,72 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Connect your AWS account to access the COMPANY Console. Must be deployed in eu-central-1",
+  "Parameters": {
+    "workspaceID": {
+      "Type": "String",
+      "Description": "This is the ID of your COMPANY Console, do not edit."
+    }
+  },
+  "Outputs": {},
+  "Resources": {
+    "ManagmentRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "RoleName": {
+          "Fn::Join": [
+            "-",
+            [
+              "COMPANY",
+              {
+                "Ref": "workspaceID"
+              }
+            ]
+          ]
+        },
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": "457473946763"
+              },
+              "Action": "sts:AssumeRole",
+              "Condition": {
+                "StringEquals": {
+                  "sts:ExternalId": {
+                    "Ref": "workspaceID"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "ManagedPolicyArns": [
+          "arn:aws:iam::aws:policy/AdministratorAccess"
+        ]
+      }
+    },
+    "COMPANYConnect": {
+      "Type": "Custom::COMPANYConnect",
+      "Properties": {
+        "ServiceToken": "arn:aws:lambda:eu-central-1:457473946763:function:AccountGatewayStack-connectorlambda06286316-tRSbQA45HplA",
+        "accountID": {
+          "Ref": "AWS::AccountId"
+        },
+        "region": {
+          "Ref": "AWS::Region"
+        },
+        "role": {
+          "Fn::GetAtt": [
+            "ManagmentRole",
+            "Arn"
+          ]
+        },
+        "workspaceID": {
+          "Ref": "workspaceID"
+        }
+      }
+    }
+  }
+}
