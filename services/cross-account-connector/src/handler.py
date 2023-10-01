@@ -3,9 +3,9 @@ import boto3
 import os
 
 dynamodb = boto3.resource("dynamodb")
-table_env = os.getenv("table", default=None)
+table_env = os.getenv("DYNAMODB_TABLE", None)
 if table_env == None:
-    raise Exception("env table not set")
+    raise ValueError("DYNAMODB_TABLE environment variable is not set.")
 
 table = dynamodb.Table(table_env)
 

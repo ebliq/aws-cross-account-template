@@ -29,7 +29,7 @@
             {
               "Effect": "Allow",
               "Principal": {
-                "AWS": "457473946763"
+                "AWS": "{{awsAccountId}}"
               },
               "Action": "sts:AssumeRole",
               "Condition": {
@@ -47,10 +47,10 @@
         ]
       }
     },
-    "COMPANYConnect": {
-      "Type": "Custom::COMPANYConnect",
+    "CrossAccountConnector": {
+      "Type": "Custom::CrossAccountConnector",
       "Properties": {
-        "ServiceToken": "arn:aws:lambda:eu-central-1:457473946763:function:AccountGatewayStack-connectorlambda06286316-tRSbQA45HplA",
+        "ServiceToken": "{{lambdaArn}}",
         "accountID": {
           "Ref": "AWS::AccountId"
         },
