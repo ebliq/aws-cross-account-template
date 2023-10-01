@@ -20,6 +20,7 @@ import { usePathname } from "next/navigation";
 import { Ref, useRef } from "react";
 import React from "react";
 import { ListItem } from "@/components/ui/listItem";
+import { CLOUDOFMRATION_URL } from "@/constants";
 
 const AVAILABLE_REGIONS = [
   {
@@ -39,10 +40,6 @@ const AVAILABLE_REGIONS = [
     available: false,
   },
 ];
-
-const CLOUDOFMRATION_URL =
-  process.env.CLOUDOFMRATION_URL ||
-  "https://accountgatewaystack-publicbucket838c4779-xblbwu7v0vzr.s3.eu-central-1.amazonaws.com/template.json";
 
 interface ConnectCardProps extends React.HTMLAttributes<HTMLElement> {
   userId: string;

@@ -1,6 +1,6 @@
 import { Organization, OrganizationMembership, clerkClient } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import { COOKIE_WORKSPACE, HOST } from "@/constants";
+import { COOKIE_WORKSPACE } from "@/constants";
 import { cookies } from "next/headers";
 import { setCookieForActiveOrganization } from "@/lib/utils";
 
