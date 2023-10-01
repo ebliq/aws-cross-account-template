@@ -54,12 +54,12 @@ export function ConnectCard({
   const path = usePathname();
   const currentOrg = getCurrentOrgPath(path);
   const regionRef: Ref<HTMLSpanElement> = useRef(null);
-  const [region, setRegion] = React.useState("eu-central-1");
+  const [region, setRegion] = React.useState(DEFAULT_REGION);
 
   const cloudformationParameter = new URLSearchParams({
     param_workspaceID: currentOrg,
     stackName: `${currentOrg}-cloudofmration-${nanoid(6)}`,
-    templateURL: CLOUDOFMRATION_URL,
+    templateURL: CLOUDOFMRATION_URL || "",
   });
 
   return (
