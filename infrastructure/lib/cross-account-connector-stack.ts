@@ -43,7 +43,7 @@ export class CrossAccountConnectorStack extends cdk.Stack {
       "customResourceConnector",
       {
         functionName: functionName,
-        entry: path.join(__dirname, "../../src"), // __dirname == lib/
+        entry: path.join(__dirname, "../../services/cross-account-connector/src"), // __dirname == lib/
         runtime: lambda.Runtime.PYTHON_3_11,
         index: "handler.py",
         handler: "handler",
