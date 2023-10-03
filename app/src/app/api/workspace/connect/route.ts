@@ -3,7 +3,7 @@ import { createDocClient, queryActiveAccounts } from "@/lib/db";
 import { QueryCommand, QueryCommandInput } from "@aws-sdk/lib-dynamodb";
 import { DYNAMODB_CROSS_ACCOUNT_TABLE_NAME } from "@/constants";
 
-const client = createDocClient({})
+const client = createDocClient()
 
 export async function POST(req: Request) {
   const { userId } = auth();
