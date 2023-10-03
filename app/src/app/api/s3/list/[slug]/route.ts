@@ -10,6 +10,8 @@ export async function GET(req: Request, { params: { slug } }: { params: { slug: 
   if (!userId) {
     return new Response("Unauthorized", { status: 401 });
   }
+  // TODO add a check if user is allowed to access this account
+
   const userCredentials = await credentials.getCredentialsOrSet(slug)
 
   const buckets = await listBuckets({ credentials: userCredentials })
