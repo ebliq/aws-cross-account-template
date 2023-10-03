@@ -37,7 +37,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <Header />
-            <main className="mx-auto flex min-h-[60vh] w-full max-w-[50em] flex-col items-center justify-center space-y-12">
+            <main className="mx-auto flex min-h-[calc(100vh-4rem)] w-full max-w-[50em] flex-col items-center justify-center">
               {children}
             </main>
             <Toaster />

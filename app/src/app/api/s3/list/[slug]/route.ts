@@ -1,4 +1,5 @@
 import { CredentialsCache } from "@/lib/credentials";
+import { listBuckets } from "@/lib/service/s3";
 import { auth } from "@clerk/nextjs";
 
 const credentials = new CredentialsCache()
@@ -11,16 +12,7 @@ export async function GET(req: Request, { params: { slug } }: { params: { slug: 
   }
   const userCredentials = await credentials.getCredentialsOrSet(slug)
 
-  // // extract slug from path
-  // const { searchParams } = new URL(req.url)
-  // console.log(searchParams)
-  // const org = searchParams.get('org')
-  // console.log(org)
+  const buckets = await listBuckets({ credentials: userCredentials })
 
-
-
-  // const data = await queryActiveAccounts({ slug, client })
-
-
-  return new Response(JSON.stringify(userCredentials), { status: 200, headers: { 'content-type': 'application/json' } })
+  return new Response(JSON.stringify({ "buckets": buckets }), { status: 200, headers: { 'content-type': 'application/json' } })
 }

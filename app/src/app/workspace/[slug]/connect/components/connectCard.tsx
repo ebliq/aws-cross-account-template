@@ -77,7 +77,6 @@ export function ConnectCard({
         },
         body: JSON.stringify({ slug: currentOrg }),
       });
-      console.log(res.ok);
       if (res.ok) {
         router.push(`/workspace/${currentOrg}`);
       }

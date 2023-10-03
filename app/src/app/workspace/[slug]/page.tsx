@@ -6,10 +6,16 @@ import { HOST } from "@/constants";
 import { queryActiveAccounts } from "@/lib/db";
 import { Button } from "@/components/ui/button";
 import { TestButton } from "../components/button";
+import { listBuckets } from "@/lib/service/s3";
+import { CredentialsCache, assumeRole } from "@/lib/credentials";
+import { BucketTable } from "./components/table";
 
 interface WorkspaceParams {
   slug: string;
 }
+export const revalidate = 60; // cache for 60 seconds
+
+const credentialsCache = new CredentialsCache();
 
 export default async function Page({ params }: { params: WorkspaceParams }) {
   const user = (await currentUser()) as User;
@@ -20,15 +26,13 @@ export default async function Page({ params }: { params: WorkspaceParams }) {
   if (!(await queryActiveAccounts({ slug: organization.slug as string }))) {
     redirect(`/workspace/${organization.slug}/connect`);
   }
-  // const buckets = await listBuckets();
+  const credentials = await credentialsCache.getCredentialsOrSet(params.slug);
+  const buckets = await listBuckets({ credentials });
+
   return (
     <>
-      {/* {buckets.map((bucket) => (
-        <div key={bucket}>{bucket}</div>
-      ))} */}
       <TestButton />
-      <div>{params.slug}</div>
-      <div>{organization.name}</div>
+      <BucketTable buckets={buckets} />
     </>
   );
 }

@@ -8,8 +8,8 @@ export default async function Page() {
   const user = (await currentUser()) as User;
 
   return (
-    <div className="mx-auto mt-8 flex min-h-[60vh] w-full max-w-[50em] flex-col items-center justify-center space-y-12">
+    <>
       <ConnectCard userId={user.id} userImage={user.imageUrl} />
-    </div>
+    </>
   );
 }

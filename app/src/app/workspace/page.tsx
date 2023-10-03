@@ -32,8 +32,8 @@ export default async function Page() {
   }
 
   return (
-    <div className="mx-auto mt-8 flex w-full max-w-[50em] items-center justify-center ">
+    <>
       <CreateOrganizationForm action={createOrganization} />
-    </div>
+    </>
   );
 }

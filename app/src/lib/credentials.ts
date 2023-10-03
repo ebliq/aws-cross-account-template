@@ -3,7 +3,7 @@ import { AssumeRoleCommandOutput, STS } from "@aws-sdk/client-sts"
 import { LRUCache } from "lru-cache/min"
 import { createDocClient, queryActiveAccounts } from "./db"
 
-export type CustomCredentials = AssumeRoleCommandOutput | {
+export type CustomCredentials = {
   region: string,
   credentials: {
     accessKeyId: string,
@@ -15,10 +15,10 @@ export type CustomCredentials = AssumeRoleCommandOutput | {
 //  *
 //  * Assume role and return credentials or use default credentials provided by environment variables
 //  */
-export async function assumeRole(roleArn: string, externalId: string, region: string): Promise<CustomCredentials> {
+export async function assumeRole({ roleArn, externalId, region }: { roleArn: string, externalId: string, region: string }): Promise<CustomCredentials> {
   // Create STS client
   const sts = new STS({
-    region: region,
+    region: region
   })
 
   // Assume role
@@ -71,7 +71,7 @@ export class CredentialsCache {
         throw new Error("User not found")
       }
       // create credentials
-      const userCredentials = await assumeRole(data?.role, data?.PK, data?.region)
+      const userCredentials = await assumeRole({ roleArn: data.role, externalId: data.PK, region: data.region })
       // set in cache
       this.set(slug, userCredentials)
       _credentials = userCredentials

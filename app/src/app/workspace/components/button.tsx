@@ -1,8 +1,9 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { HOST } from "@/constants";
 
 async function listBuckets() {
-  const c = await fetch("http://localhost:3000/api/s3/list/philipp-aws", {
+  const c = await fetch(`${HOST}/api/s3/list/philipp-aws`, {
     method: "GET",
     credentials: "include",
   });
@@ -11,5 +12,5 @@ async function listBuckets() {
 }
 
 export function TestButton() {
-  return <Button onClick={listBuckets}>test</Button>;
+  return <Button onClick={listBuckets}>List buckets via api</Button>;
 }
